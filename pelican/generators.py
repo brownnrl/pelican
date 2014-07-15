@@ -25,6 +25,7 @@ from pelican.utils import (copy, process_translations, mkdir_p, DateFormatter,
                            FileStampDataCacher)
 from pelican import signals
 
+from traceback import format_exc
 
 logger = logging.getLogger(__name__)
 
@@ -469,8 +470,8 @@ class ArticlesGenerator(CachingGenerator):
                         preread_sender=self,
                         context_signal=signals.article_generator_context,
                         context_sender=self)
-                except Exception as e:
-                    logger.warning('Could not process {}\n{}'.format(f, e))
+                except:# Exception as e:
+                    logger.exception('Could not process {}\n{}'.format(f, format_exc()))
                     continue
 
                 if not is_valid_content(article, f):
@@ -593,8 +594,8 @@ class PagesGenerator(CachingGenerator):
                         preread_sender=self,
                         context_signal=signals.page_generator_context,
                         context_sender=self)
-                except Exception as e:
-                    logger.warning('Could not process {}\n{}'.format(f, e))
+                except:# Exception as e:
+                    logger.exception('Could not process {}\n{}'.format(f,format_exc()))
                     continue
 
                 if not is_valid_content(page, f):
